@@ -4,9 +4,9 @@ import { createServerClient } from '@/lib/supabase/server'
 
 export const dynamic = 'force-dynamic'
 
-export default async function AgbPage() {
+export default async function DatenschutzPage() {
   const supabase = createServerClient()
-  const { data } = await supabase.from('settings').select('value').eq('key', 'agb').single()
+  const { data } = await supabase.from('settings').select('value').eq('key', 'datenschutz').single()
   const text = data?.value ?? ''
 
   return (
@@ -16,11 +16,11 @@ export default async function AgbPage() {
         Zurück
       </Link>
 
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Allgemeine Geschäftsbedingungen</h1>
+      <h1 className="text-2xl font-bold text-gray-900 mb-6">Datenschutzerklärung</h1>
 
       <div className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">
         {text || (
-          <p className="text-gray-400 italic">Die AGB wurden noch nicht hinterlegt.</p>
+          <p className="text-gray-400 italic">Die Datenschutzerklärung wurde noch nicht hinterlegt.</p>
         )}
       </div>
     </main>

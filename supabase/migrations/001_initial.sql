@@ -57,5 +57,9 @@ CREATE POLICY "Service role manages event images"
 ALTER TABLE events ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Public read events" ON events FOR SELECT USING (true);
 
+-- Grant table access to service_role (bypasses RLS but still needs explicit grants)
+GRANT ALL ON TABLE events TO service_role;
+GRANT ALL ON TABLE bookings TO service_role;
+
 -- RLS: bookings only via service role (all mutations happen server-side)
 ALTER TABLE bookings ENABLE ROW LEVEL SECURITY;

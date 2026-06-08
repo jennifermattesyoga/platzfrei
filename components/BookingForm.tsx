@@ -114,7 +114,11 @@ export function BookingForm({ eventId, isFull, isCancelled }: BookingFormProps) 
         <label htmlFor="agb" className="text-sm text-gray-600">
           Ich habe die{' '}
           <a href="/agb" target="_blank" className="text-[#0042C2] underline underline-offset-2">
-            Allgemeinen Geschäftsbedingungen
+            AGB
+          </a>{' '}
+          und die{' '}
+          <a href="/datenschutz" target="_blank" className="text-[#0042C2] underline underline-offset-2">
+            Datenschutzerklärung
           </a>{' '}
           gelesen und akzeptiere sie.
         </label>

@@ -18,12 +18,17 @@ export function AdminNavbar() {
         <Image src="/jennifer-mattes_logo.png" alt="platzfrei" width={28} height={28} className="rounded" />
         <span className="font-semibold text-gray-900">platzfrei Admin</span>
       </Link>
-      <button
-        onClick={handleLogout}
-        className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
-      >
-        Abmelden
-      </button>
+      <div className="flex items-center gap-4">
+        <Link href="/admin/settings" className="text-sm text-gray-500 hover:text-gray-900 transition-colors">
+          Texte
+        </Link>
+        <button
+          onClick={handleLogout}
+          className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
+        >
+          Abmelden
+        </button>
+      </div>
     </nav>
   )
 }
