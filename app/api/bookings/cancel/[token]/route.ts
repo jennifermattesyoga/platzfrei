@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase/server'
-import { getResend, FROM_EMAIL } from '@/lib/resend'
+import { getResend, FROM_EMAIL, ADMIN_EMAIL } from '@/lib/resend'
 import { bookingCancellationHtml, bookingCancellationText } from '@/lib/emails/booking-cancellation'
 import { waitlistPromotionHtml, waitlistPromotionText } from '@/lib/emails/waitlist-promotion'
+import { adminNotificationHtml, adminNotificationText } from '@/lib/emails/admin-notification'
 
 export async function POST(_: NextRequest, { params }: { params: Promise<{ token: string }> }) {
   const { token } = await params
@@ -42,6 +43,40 @@ export async function POST(_: NextRequest, { params }: { params: Promise<{ token
       lastName: booking.last_name,
       eventTitle: event.title,
       eventDate: event.start_date,
+    }),
+  })
+
+  // Notify admin about cancellation
+  const { data: currentBookings } = await supabase
+    .from('bookings')
+    .select('status')
+    .eq('event_id', event.id)
+    .eq('status', 'confirmed')
+  const confirmedCount = currentBookings?.length ?? 0
+
+  await resend.emails.send({
+    from: FROM_EMAIL(),
+    to: ADMIN_EMAIL(),
+    subject: `[Stornierung] ${event.title}`,
+    html: adminNotificationHtml({
+      eventTitle: event.title,
+      eventDate: event.start_date,
+      firstName: booking.first_name,
+      lastName: booking.last_name,
+      email: booking.email,
+      status: 'cancelled',
+      confirmedCount,
+      maxSpots: event.max_spots,
+    }),
+    text: adminNotificationText({
+      eventTitle: event.title,
+      eventDate: event.start_date,
+      firstName: booking.first_name,
+      lastName: booking.last_name,
+      email: booking.email,
+      status: 'cancelled',
+      confirmedCount,
+      maxSpots: event.max_spots,
     }),
   })
 

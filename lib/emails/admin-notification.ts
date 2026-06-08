@@ -6,7 +6,7 @@ interface AdminNotificationProps {
   firstName: string
   lastName: string
   email: string
-  status: 'confirmed' | 'waitlist'
+  status: 'confirmed' | 'waitlist' | 'cancelled'
   confirmedCount: number
   maxSpots: number
 }
@@ -19,7 +19,7 @@ export function adminNotificationHtml(p: AdminNotificationProps) {
 <body style="font-family:sans-serif;color:#111;max-width:600px;margin:0 auto;padding:24px">
   <div style="background:#0042C2;padding:4px 0;border-radius:8px 8px 0 0"></div>
   <div style="border:1px solid #e5e7eb;border-top:none;border-radius:0 0 8px 8px;padding:32px">
-    <h1 style="font-size:20px;margin-top:0">${p.status === 'waitlist' ? 'Neue Wartelisteneintragung' : 'Neue Buchung'}</h1>
+    <h1 style="font-size:20px;margin-top:0">${p.status === 'cancelled' ? 'Stornierung' : p.status === 'waitlist' ? 'Neue Wartelisteneintragung' : 'Neue Buchung'}</h1>
     <div style="background:#f9f9f9;border-radius:8px;padding:20px;margin:16px 0">
       <p style="margin:0 0 6px"><strong>Termin:</strong> ${p.eventTitle}</p>
       <p style="margin:0 0 6px"><strong>Datum:</strong> ${formatDateTime(p.eventDate)}</p>
@@ -33,7 +33,7 @@ export function adminNotificationHtml(p: AdminNotificationProps) {
 }
 
 export function adminNotificationText(p: AdminNotificationProps) {
-  return `${p.status === 'waitlist' ? 'Neue Wartelisteneintragung' : 'Neue Buchung'} für "${p.eventTitle}"
+  return `${p.status === 'cancelled' ? 'Stornierung' : p.status === 'waitlist' ? 'Neue Wartelisteneintragung' : 'Neue Buchung'} für "${p.eventTitle}"
 
 Teilnehmer:in: ${p.firstName} ${p.lastName} (${p.email})
 Datum: ${formatDateTime(p.eventDate)}
