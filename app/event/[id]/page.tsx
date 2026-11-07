@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation'
+import { spotsLabel } from '@/lib/spots'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeft, Calendar, MapPin, Users, Clock } from 'lucide-react'
@@ -70,7 +71,7 @@ export default async function EventPage({ params }: Props) {
             ) : isFull ? (
               <span className="text-amber-600">Ausgebucht — Warteliste möglich</span>
             ) : (
-              <span>{spotsLeft} von {event.max_spots} Plätzen frei</span>
+              <span>{spotsLabel(spotsLeft)}</span>
             )}
           </div>
           {event.price !== null && (

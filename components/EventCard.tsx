@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { spotsLabel } from '@/lib/spots'
 import Image from 'next/image'
 import { Calendar, MapPin, Users } from 'lucide-react'
 import { formatDate, formatTime, formatPrice, cn } from '@/lib/utils'
@@ -62,7 +63,7 @@ export function EventCard({ event }: EventCardProps) {
               ) : isFull ? (
                 <span className="text-amber-600">Ausgebucht — Warteliste möglich</span>
               ) : (
-                <span>{spotsLeft} von {event.max_spots} Plätzen frei</span>
+                <span>{spotsLabel(spotsLeft)}</span>
               )}
             </div>
           </div>
